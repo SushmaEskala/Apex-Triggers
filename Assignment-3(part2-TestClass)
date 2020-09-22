@@ -1,0 +1,14 @@
+@isTest
+public class Update_Account_Field_Test {
+    @isTest static void CheckIfAccountUpdated(){
+        Account acc = new Account(Name='Duplicate');
+        insert acc;
+        List<Contact> conList = new List<Contact>();
+        Contact con = new Contact(FirstName='Dup',LastName='Dup',Email='dup@gmail.com',AccountId=acc.Id);
+        conList.add(con);
+        Contact con1 = new Contact(FirstName='Ram',LastName='Ram',Email='Ram@gmail.com',AccountId=acc.Id);
+        conList.add(con1);
+        insert conList;
+        
+    }
+}

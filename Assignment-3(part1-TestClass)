@@ -1,0 +1,8 @@
+@isTest
+public class Insert_Contact_Test {
+    @isTest static void checkIfInserted(){
+        Account a = new Account(Name='New Dummy Account');
+        insert a;
+        
+    }
+}

@@ -1,0 +1,20 @@
+trigger ChangeField on Task (after insert,after update) {
+    //List<Id> accIds = new List<Id>();
+	List<AggregateResult> tasks = [select count(Id) c,AccountId a from Task where AccountID in (select Id from Account)
+                                  group by AccountId];
+    List<Account> accList = new List<Account>();
+    for(AggregateResult ar: tasks){
+        for(Task t: Trigger.New){
+            if(t.Status == 'Completed'){
+                Account acc = new Account(Id=(Id)ar.get('a'),Number_of_Tasks__c=(Decimal)ar.get('c'));
+        		accList.add(acc);
+            }
+            else{
+                Account acc = new Account(Id=(Id)ar.get('a'),Number_of_Tasks__c=0);
+        		accList.add(acc);
+            }
+        }
+        
+    }
+    update accList;
+}

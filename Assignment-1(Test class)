@@ -1,0 +1,14 @@
+@isTest
+public class Update_Is_Gold_Test {
+	@isTest static void CheckIfUpdated(){
+        Account a = new Account(Name='Dup');
+        insert a;
+        Opportunity o = new Opportunity(Name='DupOpp',StageName='Closed Won',CloseDate=date.valueOf('2020-08-01'),Amount=25000,AccountId=a.Id);
+        insert o;
+        System.assertEquals(a.is_gold__c=True, a.is_gold__c=True);
+        o.Amount = 19000;
+        update o;
+        System.assertEquals(a.is_gold__c=False, a.is_gold__c=False);
+    }
+    
+}

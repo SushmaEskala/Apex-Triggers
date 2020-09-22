@@ -1,0 +1,17 @@
+@isTest
+public class Update_Profile_Test {
+    @isTest static void checkTheUpdate(){
+        Account acc = new Account(Name='ProfileDummy',Website='www.profiledummy.com');
+        insert acc;
+        Contact con = new Contact(AccountId=acc.Id,FirstName='profile',LastName='Dummy');
+        insert con;
+        acc.BillingCity = 'Kurnool';
+        update acc;
+        if(acc.Website != null){
+            con.Profile__c = 'www.profiledummy.com/pDummy';
+            update con;
+            Database.SaveResult srlist = Database.update(con,True);
+        }
+        
+    }
+}

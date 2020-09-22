@@ -1,0 +1,15 @@
+trigger Update_Is_Gold on Opportunity (after insert,after update) {
+	for(Opportunity opp:Trigger.New){
+        for(Account acc:[select is_gold__c from Account where Id =: opp.AccountID]){
+            if(opp.Amount>=20000){
+            	acc.is_gold__c = True;
+            	update acc;
+            }
+            else{
+                acc.is_gold__c = False;
+                update acc;
+            }
+        }
+        
+    }
+}

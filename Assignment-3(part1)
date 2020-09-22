@@ -1,0 +1,10 @@
+trigger Insert_Contact on Account (after insert) {
+    List<Contact> cons = new List<Contact>();
+    
+    for(Account acc:Trigger.New){
+        Contact con = new Contact(AccountId=acc.Id,FirstName='Info',LastName='Default',Email='info@websitedomain.tld');
+        cons.add(con);
+            
+    }
+    insert cons;
+}

@@ -1,0 +1,11 @@
+@isTest
+public class ChangeFieldTest {
+    @isTest static void updateNumberOfTasks(){
+        Account acc = new Account(Name='Junk');
+        insert acc;
+        Task task = new Task(Subject='Call',Status='Completed',Priority='Normal',WhatId=acc.Id);
+        insert task;
+        Task task2 = new Task(Subject='Call',Status='In Progress',Priority='Normal',WhatId=acc.Id);
+        insert task2;
+    }
+}

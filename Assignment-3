@@ -1,0 +1,37 @@
+trigger Update_Field on Account (after insert,after update) {
+    List<Contact> conList = new List<Contact>();
+    AggregateResult[] groupedAccounts = [select AccountId from Contact where AccountId in 
+                            			(select Id from Account)
+                            			group by AccountId
+                            			having count(Id)=1];
+    AggregateResult[] AccList = [select AccountId from Contact group by AccountId];
+    for(AggregateResult ar: AccList){
+        Integer flag=0;
+        for(AggregateResult ar1: groupedAccounts){
+            if(ar.get('AccountId') == ar1.get('AccountID')){    
+                flag=1;
+                break;
+            }
+        }
+        for(Account acc: Trigger.New){
+			for(Contact con:[select AccountId,FirstName,LastName,Email from Contact where AccountId=: acc.Id]){
+                con.FirstName = 'Info';
+                con.LastName = 'Default';
+                con.Email = 'info@websitedomain.tld';
+                insert con;
+            }
+            if(acc.Id == ar.get('AccountId')){
+                if(flag==1){
+                    acc.Only_Default_Contact__c=True;
+                    update acc;
+                }
+                else{
+                    acc.Only_Default_Contact__c=False;
+                    update acc;
+                }
+                break;
+            }
+        }
+        
+    }
+}
